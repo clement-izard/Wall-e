@@ -1,5 +1,9 @@
 # Wall-e
 
+# Disclaimer
+
+This tool is for educational purposes only. I am not responsible for any misuse of this tool.
+
 ## -------- Français --------
 
 ## Introduction
@@ -84,10 +88,6 @@ Si vous avez trouvé cet outil utile et souhaitez soutenir son développement, e
 [//]: # (- **XMR**: `Your XMR Address Here`)
 
 Votre soutien est grandement apprécié!
-
-## Dernière note
-
-Cet outil est à des fins éducatives uniquement. Je ne suis pas responsable de tout mauvais usage de cet outil.
 
 ---
 
@@ -178,11 +178,6 @@ If you found this tool helpful and would like to support its development, consid
 [//]: # (- **XMR**: `Your XMR Address Here`)
 
 Your support is greatly appreciated!
-
-## Last note
-
-This tool is for educational purposes only. I am not responsible for any misuse of this tool.
-
 
 ---
 
