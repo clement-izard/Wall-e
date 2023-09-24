@@ -36,13 +36,13 @@ Les liens en erreur seront affichés à la fin des téléchargements, vous pourr
    Ouvrez votre terminal ou invite de commande et exécutez :
 
    ```bash
-   git clone https://github.com/lien-de-votre-repo-ici.git
+   git clone https://github.com/clement-izard/Wall-e
    ```
 
 2. **Naviguez vers le Répertoire du Projet**:
 
    ```bash
-   cd telechargeur-de-series
+   cd wall-e
    ```
 
 3. **Installez les Dépendances** :

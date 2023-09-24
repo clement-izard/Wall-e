@@ -9,33 +9,9 @@ const path = require('path');
 const axios = rateLimit(rawAxios.create(), { maxRequests: 12, perMilliseconds: 1000 });
 axiosRetry(axios, { retries: 3, retryDelay: () => 1000 });
 
-const DOMAIN = "https://www.wawacity.rocks/"
-const BASE_URL = "https://www.wawacity.rocks/?p=serie&id=18011-the-expanse-saison1";
 const MAX_CONCURRENT_DOWNLOADS = 15;
 
 let activeDownloads = 0;
-
-const SERIES_URLS = [
-	// "https://www.wawacity.pink/?p=serie&id=9474-your-honor-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=3101-narcos-saison1",
-	"https://www.wawacity.pink/?p=serie&id=20244-damages-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=18388-marvel-s-the-punisher-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=14114-severance-saison1",
-	"https://www.wawacity.pink/?p=serie&id=13126-invasion-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=2581-parks-and-recreation-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=1076-community-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=2000-breaking-bad-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=4539-for-all-mankind-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=1086-the-office-us-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=2471-westworld-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=2916-black-mirror-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=8440-le-jeu-de-la-dame-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=7701-psych-enqu-teur-malgr-lui-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=1171-scrubs-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=3009-lost-les-disparus-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=3560-young-sheldon-saison1",
-	// "https://www.wawacity.pink/?p=serie&id=779-mr-robot-saison1",
-];
 
 async function fetchWebsiteContent(url) {
 	try {
@@ -91,14 +67,18 @@ async function extractOtherSeasonLinks($, currentQuality) {
 		const $newPage = cheerio.load(response.data);
 		const newPageQuality = $newPage('h1.wa-block-title').text().match(/Series » (.+?) - Saison (\d+) - (.+)/i)?.[3].trim();
 
-		if (newPageQuality === currentQuality) {
+		// Try to get HD quality if available
+		if ((currentQuality.includes("HD") && newPageQuality === currentQuality) || (currentQuality + " HD" === newPageQuality)) {
 			otherSeasonLinks.push(link);
 		} else {
+			// Either the quality is not HD or the language is different
 			// Extract quality-specific link that matches the desired quality
 			let matchingQualityLink = null;
 			$newPage('div.wa-sub-block:contains("Autres langues/qualités disponibles") ul.wa-post-list-ofLinks li a').each((i, linkElem) => {
 				const qualityText = $newPage(linkElem).find('button i').text().trim();
-				if (qualityText === currentQuality) {
+				if (qualityText === currentQuality + " HD") {
+					matchingQualityLink = `${process.env.WAWACITY_BASE}${$newPage(linkElem).attr('href')}`;
+				} else if (qualityText === currentQuality && !matchingQualityLink) {
 					matchingQualityLink = `${process.env.WAWACITY_BASE}${$newPage(linkElem).attr('href')}`;
 				}
 			});
@@ -178,6 +158,8 @@ async function downloadFile(url, savePath) {
 			return;
 		}
 
+		// Saving file
+		const writer = fs.createWriteStream(savePath);
 		response.data.pipe(writer);
 
 		return new Promise((resolve, reject) => {
