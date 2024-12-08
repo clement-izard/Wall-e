@@ -91,6 +91,8 @@ Les liens en erreur seront affichés à la fin des téléchargements, vous pourr
 
    Le script va automatiquement extraire le nom de la série et le numéro de la saison à partir des noms des fichiers dans les liens.
 
+   Exemple: https://c5d6e7.debrid.it/dl/3e76gvc69f0/Boardwalk%20Empire%20S01E09%20Belle%20Femme.mkv
+
 ## Dons
 
 Si vous avez trouvé cet outil utile et souhaitez soutenir son développement, envisagez de faire un don :
@@ -233,3 +235,5 @@ node index.js --links
 ```
 
 The script will automatically extract the series name and season number from the filenames in the links.
+
+Example: https://c5d6e7.debrid.it/dl/3e76gvc69f0/Boardwalk%20Empire%20S01E09%20Belle%20Femme.mkv
