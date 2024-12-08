@@ -15,10 +15,11 @@ L'url actuelle de wawacity est sur telegram: https://web.telegram.org/a/#-180555
 ## Fonctionnalités
 
 1. **Téléchargement Automatisé de Séries**: Une fois configuré, l'outil récupérera automatiquement les liens de téléchargement pour tous les épisodes de la série et de ses saisons pour un qualité déterminée, puis les téléchargera.
-2. **Téléchargement Parallèle**: Plusieurs épisodes sont téléchargés en parallèle pour une finalisation plus rapide. Maximum 15 téléchargements en parallèle pour ne pas surcharger Alldebrid.
-3. **Déblocage des Liens**: L'outil s'intègre à AllDebrid pour débloquer et fournir des liens de téléchargement directs.
-4. **Stockage Organisé**: Les épisodes téléchargés sont soigneusement organisés dans des dossiers par nom de série et par saison.
-5. **Doublons**: L'outil ne téléchargera pas les épisodes déjà présents dans le dossier de stockage.
+2. **Téléchargement via fichier de liens**: En utilisant l'option `--links`, l'outil peut lire un fichier `links.txt` contenant des liens de téléchargement directs et les organiser automatiquement dans les dossiers appropriés.
+3. **Téléchargement Parallèle**: Plusieurs épisodes sont téléchargés en parallèle pour une finalisation plus rapide. Maximum 15 téléchargements en parallèle pour ne pas surcharger Alldebrid.
+4. **Déblocage des Liens**: L'outil s'intègre à AllDebrid pour débloquer et fournir des liens de téléchargement directs.
+5. **Stockage Organisé**: Les épisodes téléchargés sont soigneusement organisés dans des dossiers par nom de série et par saison.
+6. **Doublons**: L'outil ne téléchargera pas les épisodes déjà présents dans le dossier de stockage.
 
 ## Problèmes Connus
 
@@ -78,6 +79,18 @@ Les liens en erreur seront affichés à la fin des téléchargements, vous pourr
 
    Asseyez-vous et regardez l'outil récupérer et télécharger la série pour vous!
 
+6. **Optionnel - Ajouter vos liens de téléchargement au fichier `links.txt`**:
+
+   Créez un fichier `links.txt` dans le répertoire du projet et ajoutez vos liens de téléchargement (un par ligne).
+
+   Exécutez l'outil avec l'option `--links`:
+
+   ```bash
+   node index.js --links
+   ```
+
+   Le script va automatiquement extraire le nom de la série et le numéro de la saison à partir des noms des fichiers dans les liens.
+
 ## Dons
 
 Si vous avez trouvé cet outil utile et souhaitez soutenir son développement, envisagez de faire un don :
@@ -104,10 +117,11 @@ Current wawacity url can be found on their telegram: https://web.telegram.org/a/
 ## Features
 
 1. **Automated Series Download**: Once set up, the tool will automatically retrieve download links for all episodes of the series and its seasons in the initial quality, and download them.
-2. **Parallel Download**: Multiple episodes are downloaded concurrently for faster completion. 15 downloads in parallel maximum to not overload Alldebrid.
-3. **Link Unlocking**: The tool integrates with AllDebrid to unlock and provide direct download links.
-4. **Organized Storage**: Downloaded episodes are neatly organized into folders by series name and season.
-5. **Avoid double download**: The tool will not download episodes that are already present in the storage folder.
+2. **Direct Links Download**: Using the `--links` option, the tool can read a `links.txt` file containing direct download links and automatically organize them into appropriate folders.
+3. **Parallel Download**: Multiple episodes are downloaded concurrently for faster completion. 15 downloads in parallel maximum to not overload Alldebrid.
+4. **Link Unlocking**: The tool integrates with AllDebrid to unlock and provide direct download links.
+5. **Organized Storage**: Downloaded episodes are neatly organized into folders by series name and season.
+6. **Avoid double download**: The tool will not download episodes that are already present in the storage folder.
 
 ## Known issues
 
@@ -168,6 +182,19 @@ The links in error will be displayed at the end of the downloads, you can either
 
    Sit back and watch as the tool fetches and downloads the series for you!
 
+6. **Optional - Add your download links to the `links.txt` file**:
+
+   Create a `links.txt` file in the project root and add your download links (one per line).
+
+   Run the tool with the `--links` option:
+
+   ```bash
+   node index.js --links
+   ```
+
+   The script will automatically extract the series name and season number from the filenames in the links.
+
+
 ## Donations
 
 If you found this tool helpful and would like to support its development, consider making a donation:
@@ -189,3 +216,20 @@ It's a simple script that doesn't need to be compiled and typescript would have 
 The script is written in a functional way, using the functional programming paradigm.
 
 I wanted to make is as accessible as possible, this way if someone wants to add a feature, it will be easier for him/her to understand the code.
+
+## Usage
+
+### Standard Mode
+```bash
+node index.js
+```
+
+### Direct Links Mode
+1. Create a `links.txt` file in the project root
+2. Add your download links (one per line)
+3. Run:
+```bash
+node index.js --links
+```
+
+The script will automatically extract the series name and season number from the filenames in the links.

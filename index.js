@@ -200,7 +200,84 @@ async function downloadBatched(files) {
 // 	links: string[],
 // }
 
+async function parseLinksFile() {
+	try {
+		const content = await fs.promises.readFile('links.txt', 'utf8');
+		const links = content.trim().split('\n').filter(Boolean);
+		
+		// Group links by series and season for better organization
+		const groupedLinks = links.reduce((acc, link) => {
+			// Extract series name and season using regex
+			const match = decodeURIComponent(link).match(/([^\/]+)(?:\s+|\.+)S(\d{2})/i);
+			if (!match) {
+				console.warn(`Could not parse series info from link: ${link}`);
+				return acc;
+			}
+
+			const [, seriesName, seasonNum] = match;
+			const season = parseInt(seasonNum, 10);
+			const key = `${seriesName}|${season}`;
+
+			if (!acc[key]) {
+				acc[key] = {
+					seriesName: seriesName.trim(),
+					currentSeason: season,
+					downloadLinks: []
+				};
+			}
+			acc[key].downloadLinks.push(link);
+			return acc;
+		}, {});
+
+		return Object.values(groupedLinks);
+	} catch (error) {
+		console.error('Error reading links.txt:', error);
+		return [];
+	}
+}
+
+async function downloadFromLinks(series) {
+	const filesToDownload = series.downloadLinks.map(link => {
+		const filename = decodeURIComponent(link).split('/').pop();
+		const folderPath = path.join(
+			process.env.BASE_DIRECTORY, 
+			series.seriesName, 
+			`Season ${series.currentSeason}`
+		);
+		const filePath = path.join(folderPath, filename);
+
+		// Skip if file exists
+		if (fs.existsSync(filePath)) {
+			console.log(`File ${filePath} already exists, skipping...`);
+			return null;
+		}
+
+		return {
+			url: link,
+			savePath: filePath
+		};
+	}).filter(Boolean);
+
+	await downloadBatched(filesToDownload);
+	console.log(`Finished downloading season ${series.currentSeason} of ${series.seriesName}!`);
+}
+
 async function main() {
+	// Check if --links argument is provided
+	if (process.argv.includes('--links')) {
+		const seriesList = await parseLinksFile();
+		console.log(`Found ${seriesList.length} series to download`);
+		
+		for (const series of seriesList) {
+			console.log(`Processing ${series.seriesName} Season ${series.currentSeason}`);
+			await downloadFromLinks(series);
+		}
+		
+		console.log('All files from links.txt have been processed!');
+		return;
+	}
+
+	// Original functionality continues here
 	const result = await getLinksFromPage(process.env.WAWACITY_SERIE_URL);
 	console.log(result);
 	const failedLinks = [];
