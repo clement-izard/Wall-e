@@ -66,8 +66,7 @@ Les liens en erreur seront affichés à la fin des téléchargements, vous pourr
     - `ALLDEBRID_KEY`: La clé API de l'agent.
     - `ALLDEBRID_ENDPOINT`: L'endpoint pour l'API AllDebrid. (Par défaut : http://api.alldebrid.com/v4)
     - `BASE_DIRECTORY`: Le dossier où vous souhaitez sauvegarder vos séries.
-    - `WAWACITY_BASE`: L'URL de base pour Wawacity. (Par défaut : https://www.wawacity.pink)
-    - `WAWACITY_SERIE_URL`: L'URL complète de la série que vous souhaitez télécharger.
+    - `WAWACITY_SERIE_URL`: L'URL complète de la série que vous souhaitez télécharger. Le domaine Wawacity est déduit automatiquement depuis cette URL.
 
 5. **Lancez l'Outil**:
 
@@ -171,8 +170,7 @@ The links in error will be displayed at the end of the downloads, you can either
     - `ALLDEBRID_KEY`: The API key of the agent.
     - `ALLDEBRID_ENDPOINT`: The endpoint for the AllDebrid API. (Default: http://api.alldebrid.com/v4)
     - `BASE_DIRECTORY`: The folder where you want to save your series.
-    - `WAWACITY_BASE`: The base URL for Wawacity. (Default: https://www.wawacity.pink)
-    - `WAWACITY_SERIE_URL`: The complete URL for the series you want to download.
+    - `WAWACITY_SERIE_URL`: The complete URL for the series you want to download. The Wawacity domain is inferred automatically from this URL.
 
 5. **Run the Tool**:
 
